@@ -6,6 +6,15 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Electron](https://img.shields.io/badge/built%20with-Electron-9FEAF9.svg)
 
+## 📥 ดาวน์โหลด (Download)
+
+คุณสามารถดาวน์โหลดเวอร์ชันล่าสุดได้ที่นี่:
+
+[![Download Installer](https://img.shields.io/badge/Download-Installer%20(v1.0.1)-blue?style=for-the-badge&logo=windows)](https://github.com/JJacKTH/CreatorSuite/releases/download/v1.0.1/Creator.Suite.Setup.1.0.1.exe)
+[![Download Portable](https://img.shields.io/badge/Download-Portable%20(v1.0.1)-indigo?style=for-the-badge&logo=windows)](https://github.com/JJacKTH/CreatorSuite/releases/download/v1.0.1/Creator.Suite.1.0.1.exe)
+
+---
+
 ## ✨ ฟีเจอร์หลัก (Key Features)
 
 ### 💬 1. LiveChat TikTok Reader
