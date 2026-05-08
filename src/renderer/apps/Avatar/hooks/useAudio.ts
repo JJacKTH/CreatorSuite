@@ -123,9 +123,9 @@ export function useAudio(options: UseAudioOptions) {
         }
         const rms = Math.sqrt(sum / dataArrayRef.current.length)
 
-        // Use configurable gain
+        // Use configurable gain - Adjusted formula for better sensitivity
         const currentGain = audioGainRef.current
-        let rawTarget = Math.pow(rms * 15, 1.2) * currentGain
+        let rawTarget = Math.pow(rms * 12, 0.8) * currentGain
 
         // --- Aggressive Noise Gate (Configurable) ---
         const currentNoiseGate = noiseGateRef.current

@@ -88,7 +88,7 @@ export const AudioSettings = React.memo(({
         <div className="grid grid-cols-1 gap-4">
             <div className="grid grid-cols-2 gap-4">
                 <RangeSlider label="Sensitivity" value={sensitivity} min={1} max={100} onChange={onSensitivityChange} />
-                <RangeSlider label="Noise Gate" value={noiseGate} min={0} max={20} step={0.5} onChange={onNoiseGateChange} />
+                <RangeSlider label="Noise Gate" value={noiseGate} min={0} max={100} step={0.5} onChange={onNoiseGateChange} />
             </div>
             <RangeSlider label="Mic Boost" value={audioGain} min={0} max={500} step={10} onChange={onAudioGainChange} />
             <RangeSlider label="Silence Delay" value={silenceDelay} min={50} max={2000} step={50} suffix="ms" onChange={onSilenceDelayChange} />
@@ -113,7 +113,7 @@ const VolumeMeter = ({ volume, sensitivity }: { volume: number, sensitivity: num
                 <span className="text-blue-400">{Math.round(volume)}</span>
             </div>
             <div className="h-2 bg-slate-900 rounded-full overflow-hidden relative">
-                <div className={`h-full ${getMeterColor()} transition-all duration-75`} style={{ width: `${volume}%` }} />
+                <div className={`h-full ${getMeterColor()}`} style={{ width: `${volume}%` }} />
                 <div className="absolute top-0 bottom-0 w-0.5 bg-white/50 z-10" style={{ left: `${sensitivity}%` }} />
             </div>
         </div>

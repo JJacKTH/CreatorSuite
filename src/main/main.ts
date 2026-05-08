@@ -114,10 +114,12 @@ function createAvatarOverlay() {
     height: settings.avatarOverlayHeight,
     minWidth: 128,
     minHeight: 128,
-    frame: true,
+    frame: false,
+    transparent: true,
+    hasShadow: false,
     title: 'Avatar Overlay',
     icon: appIcon,
-    backgroundColor: settings.backgroundColor,
+    backgroundColor: '#00000000',
     alwaysOnTop: settings.avatarAlwaysOnTop,
     show: false,
     webPreferences: {
@@ -220,13 +222,19 @@ function registerIpcHandlers() {
 
   ipcMain.on('avatar-state', (_event, payload) => {
     if (avatarOverlayWindow && !avatarOverlayWindow.isDestroyed()) {
-      avatarOverlayWindow.webContents.send('avatar-state', payload)
+      const { webContents } = avatarOverlayWindow
+      if (!webContents.isDestroyed()) {
+        webContents.send('avatar-state', payload)
+      }
     }
   })
 
   ipcMain.on('overlay-images', (_event, imageData) => {
     if (avatarOverlayWindow && !avatarOverlayWindow.isDestroyed()) {
-      avatarOverlayWindow.webContents.send('overlay-images', imageData)
+      const { webContents } = avatarOverlayWindow
+      if (!webContents.isDestroyed()) {
+        webContents.send('overlay-images', imageData)
+      }
     }
   })
 

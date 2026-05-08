@@ -7,9 +7,10 @@ const ChatOverlay: React.FC = () => {
   const feedRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    window.electronAPI.onNewEvent((data: any) => {
+    const removeListener = window.electronAPI.onNewEvent((data: any) => {
       setEvents(prev => [...prev.slice(-9), data]) // Keep last 10 for overlay
     })
+    return () => { if (removeListener) removeListener() }
   }, [])
 
   useEffect(() => {

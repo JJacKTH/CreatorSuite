@@ -1,6 +1,6 @@
 {
   "name": "creator-suite",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "All-in-One Streamer Tools: LiveChat Reader & Reactive Avatar",
   "main": "dist-electron/main.js",
   "type": "module",

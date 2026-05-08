@@ -115,22 +115,36 @@ const AvatarApp: React.FC = () => {
     return imageData.idle || null
   }, [avatarState, talkFrameIndex, imageData])
 
-  // Throttle state updates to overlay (max 30fps)
+  // ─── Sync State to Overlay ───
+  // We use a ref to track the latest state to avoid re-triggering the interval
+  // which was previously causing a race condition with frequent volume updates.
+  const syncRef = useRef({ avatarState, talkFrameIndex, volume: audio.volume, imageData })
+  useEffect(() => {
+    syncRef.current = { avatarState, talkFrameIndex, volume: audio.volume, imageData }
+  }, [avatarState, talkFrameIndex, audio.volume, imageData])
+
   useEffect(() => {
     if (!isOverlayOpen) return
     
-    const sendState = () => {
-      const currentImage = getCurrentImageData()
-      window.electronAPI.sendAvatarState({
-        avatarState,
-        currentImageData: currentImage,
-        volume: audio.volume
-      })
-    }
+    const interval = setInterval(() => {
+      const { avatarState: s, talkFrameIndex: f, volume: v, imageData: img } = syncRef.current
+      
+      let imageKey: string = 'idle'
+      if (s === 'muted') imageKey = img.mute ? 'mute' : 'idle'
+      else if (s === 'talking') {
+        const talkSlots = (['talk1', 'talk2', 'talk3'] as const).filter(k => !!img[k])
+        imageKey = talkSlots.length > 0 ? talkSlots[f % talkSlots.length] : 'idle'
+      } else if (s === 'blink') imageKey = img.blink ? 'blink' : 'idle'
 
-    const timer = setTimeout(sendState, 33) // ~30fps
-    return () => clearTimeout(timer)
-  }, [avatarState, talkFrameIndex, isOverlayOpen, getCurrentImageData, audio.volume])
+      window.electronAPI.sendAvatarState({
+        avatarState: s,
+        imageKey,
+        volume: v
+      })
+    }, 40)
+
+    return () => clearInterval(interval)
+  }, [isOverlayOpen])
 
   useEffect(() => {
     if (!isOverlayOpen) return
